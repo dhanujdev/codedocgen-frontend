@@ -3,7 +3,7 @@ import SwaggerUI from 'swagger-ui-react';
 import 'swagger-ui-react/swagger-ui.css';
 import axios from 'axios';
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:8000';
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000/api';
 
 function SwaggerViewer({ repoName }) {
     const [swaggerSpec, setSwaggerSpec] = useState(null);
@@ -21,7 +21,7 @@ function SwaggerViewer({ repoName }) {
                 setLoading(true);
                 setError('');
                 
-                const response = await axios.get(`${API_BASE_URL}/api/repo/swagger/${repoName}`);
+                const response = await axios.get(`${API_BASE_URL}/repo/swagger/${repoName}`);
                 setSwaggerSpec(response.data);
             } catch (err) {
                 console.error('Error fetching Swagger spec:', err);

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:8000';
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000/api';
 
 function FeatureFilesViewer({ repoName }) {
     const [featureFiles, setFeatureFiles] = useState([]);
@@ -19,7 +19,7 @@ function FeatureFilesViewer({ repoName }) {
                 setLoading(true);
                 setError('');
                 
-                const response = await axios.get(`${API_BASE_URL}/api/repo/features/${repoName}`);
+                const response = await axios.get(`${API_BASE_URL}/repo/features/${repoName}`);
                 
                 if (response.data.status === 'success') {
                     setFeatureFiles(response.data.feature_files);
@@ -66,7 +66,7 @@ function FeatureFilesViewer({ repoName }) {
             <div className="flex justify-between items-center mb-3">
                 <h3 className="font-bold text-indigo-800">Generated Feature Files</h3>
                 <a 
-                    href={`${API_BASE_URL}/api/repo/features/download/${repoName}`}
+                    href={`${API_BASE_URL}/repo/features/download/${repoName}`}
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="inline-flex items-center px-3 py-1.5 border border-indigo-600 text-indigo-600 text-sm font-medium rounded hover:bg-indigo-600 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"

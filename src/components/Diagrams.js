@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:8000';
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000/api';
 
 const Diagrams = ({ repoName }) => {
   const [selectedDiagramType, setSelectedDiagramType] = useState('class');
@@ -34,11 +34,11 @@ const Diagrams = ({ repoName }) => {
       
       // Use different endpoint based on diagram type
       if (selectedDiagramType === 'class' || selectedDiagramType === 'er') {
-        endpoint = `${API_BASE_URL}/api/repo/diagrams/entities/${repoName}?diagram_type=${selectedDiagramType}`;
+        endpoint = `${API_BASE_URL}/repo/diagrams/entities/${repoName}?diagram_type=${selectedDiagramType}`;
       } else if (selectedDiagramType === 'use-case') {
-        endpoint = `${API_BASE_URL}/api/repo/diagrams/use-cases/${repoName}`;
+        endpoint = `${API_BASE_URL}/repo/diagrams/use-cases/${repoName}`;
       } else if (selectedDiagramType === 'interaction') {
-        endpoint = `${API_BASE_URL}/api/repo/diagrams/interaction/${repoName}`;
+        endpoint = `${API_BASE_URL}/repo/diagrams/interaction/${repoName}`;
       }
       
       const response = await axios.get(endpoint);
