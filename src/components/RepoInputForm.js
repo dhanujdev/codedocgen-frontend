@@ -3,7 +3,7 @@ import axios from 'axios';
 import SwaggerViewer from './SwaggerViewer';
 import FeatureFilesViewer from './FeatureFilesViewer';
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:8000';
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000/api';
 
 function RepoInputForm({ updateProjectData }) {
     const [repoUrl, setRepoUrl] = useState('');
@@ -44,7 +44,7 @@ function RepoInputForm({ updateProjectData }) {
 
         try {
             // Step 1: First acknowledge the repository details
-            const initialResponse = await axios.post(`${API_BASE_URL}/api/repo/submit-repo`, {
+            const initialResponse = await axios.post(`${API_BASE_URL}/repo/submit-repo`, {
                 repo_url: repoUrl,
                 username: null,
                 password: null,
@@ -57,7 +57,7 @@ function RepoInputForm({ updateProjectData }) {
             setIsLoading('cloning');
             setCloneStatus('Cloning repository...');
             
-            const cloneResponse = await axios.post(`${API_BASE_URL}/api/repo/clone`, {
+            const cloneResponse = await axios.post(`${API_BASE_URL}/repo/clone`, {
                 repo_url: repoUrl,
                 username: null,
                 password: null,
@@ -73,7 +73,7 @@ function RepoInputForm({ updateProjectData }) {
                 setCloneStatus(prev => `${prev} Analyzing project type...`);
                 
                 try {
-                    const analyzeResponse = await axios.get(`${API_BASE_URL}/api/repo/analyze/${cloneResponse.data.repo_name}`);
+                    const analyzeResponse = await axios.get(`${API_BASE_URL}/repo/analyze/${cloneResponse.data.repo_name}`);
                     
                     if (analyzeResponse.data.status === 'success') {
                         setProjectInfo(analyzeResponse.data);
@@ -90,7 +90,7 @@ function RepoInputForm({ updateProjectData }) {
                             setCloneStatus(prev => `${prev} Parsing endpoints...`);
                             
                             try {
-                                const endpointsResponse = await axios.get(`${API_BASE_URL}/api/repo/endpoints/${cloneResponse.data.repo_name}`);
+                                const endpointsResponse = await axios.get(`${API_BASE_URL}/repo/endpoints/${cloneResponse.data.repo_name}`);
                                 
                                 if (endpointsResponse.data.status === 'success') {
                                     setEndpoints(endpointsResponse.data);
@@ -296,7 +296,7 @@ function RepoInputForm({ updateProjectData }) {
                             <div className="flex justify-between items-center mb-3">
                                 <h3 className="font-bold text-indigo-800">REST API Endpoints</h3>
                                 <a 
-                                    href={`${API_BASE_URL}/api/repo/export/markdown/${repoName}`}
+                                    href={`${API_BASE_URL}/repo/export/markdown/${repoName}`}
                                     target="_blank" 
                                     rel="noopener noreferrer"
                                     className="inline-flex items-center px-3 py-1.5 border border-indigo-600 text-indigo-600 text-sm font-medium rounded hover:bg-indigo-600 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
